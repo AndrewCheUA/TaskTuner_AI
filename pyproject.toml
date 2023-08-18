@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "tasktuner-ai"
+version = "0.1.0"
+description = ""
+authors = ["AndrewCheUA <andreicheban@gmail.com>"]
+readme = "README.md"
+packages = [{include = "tasktuner_ai"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+sqlalchemy = "^2.0.19"
+pydantic = {extras = ["dotenv", "email"], version = "^1.10.7"}
+psycopg2-binary = "^2.9.5"
+alembic = "^1.11.3"
+flask = "^2.3.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

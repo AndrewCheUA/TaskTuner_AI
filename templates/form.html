@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TaskTuner AI - Form</title>
+    <style>
+        /* ... (existing styles) ... */
+        form {
+            width: 400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+
+        input[type="text"], select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>TaskTuner AI</h1>
+        <form action="/submit" method="post">
+            <label for="name">What is your name?</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="preferred_hours">Preferred working/studying hours (if any)?</label>
+            <input type="text" id="preferred_hours" name="preferred_hours">
+
+            <label>What often holds you back? Procrastination? Distractions?</label>
+            <input type="text" name="hold_back">
+
+            <label>How do you prefer to start your day?</label>
+            <input type="text" name="start_preference">
+
+            <input type="submit" class="btn" value="Submit">
+        </form>
+    </div>
+</body>
+</html>
