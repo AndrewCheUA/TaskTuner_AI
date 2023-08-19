@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Goal Propositions</title>
+</head>
+<body>
+    <h2>Goal Propositions</h2>
+    <form method="post" action="">
+        {% for proposition in propositions %}
+            <label>
+                <input type="checkbox" name="selected_propositions[]" value="{{ proposition.title }}">
+                {{ proposition.title }}
+            </label>
+            <p>{{ proposition.description }}</p>
+            <hr>
+        {% endfor %}
+        <button type="submit" name="create_goals">Create Selected Goals</button>
+    </form>
+</body>
+</html>

@@ -31,9 +31,9 @@ class User(Base):
 class Goal(Base):
     __tablename__ = "goals"
     id = Column(Integer, primary_key=True)
-    title = Column(String(50), nullable=False)
+    title = Column("title", String(length=250), nullable=False)
     created_at = Column('created_at', DateTime, default=func.now())
-    description = Column(String(250), nullable=False)
+    description = Column("description", String(length=900), nullable=False)
     done = Column(Boolean, default=False)
     is_active = Column(Boolean, default=True)
     user_id = Column(Integer, ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
@@ -42,10 +42,11 @@ class Goal(Base):
 class Task(Base):
     __tablename__ = "tasks"
     id = Column(Integer, primary_key=True)
-    title = Column(String(50), nullable=False)
+    title = Column("title", String(length=250), nullable=False)
     created_at = Column('created_at', DateTime, default=func.now())
-    description = Column(String(550), nullable=False)
-    finished_at = Column('finished_at', DateTime)  # Corrected column name
+    description = Column("description", String(length=900), nullable=False)
+    due_date = Column('due_date', DateTime)
+    finished_at = Column('finished_at', DateTime)
     done = Column(Boolean, default=False)
     is_active = Column(Boolean, default=True)
     user_id = Column(Integer, ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
@@ -55,9 +56,9 @@ class Task(Base):
 class Habit(Base):
     __tablename__ = "habits"
     id = Column(Integer, primary_key=True)
-    title = Column(String(50), nullable=False)
+    title = Column("title", String(length=250), nullable=False)
     created_at = Column('created_at', DateTime, default=func.now())
-    description = Column(String(550), nullable=False)
+    description = Column("description", String(length=900), nullable=False)
     done = Column(Boolean, default=False)
     is_active = Column(Boolean, default=False)
     user_id = Column(Integer, ForeignKey('users.id', ondelete='CASCADE'), nullable=False)

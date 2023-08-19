@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     sqlalchemy_database_url: str
     secret_key: str
     algorithm: str
+    openai_api_key: str
     mail_username: str
     mail_password: str
     mail_from: str

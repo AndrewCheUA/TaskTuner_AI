@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Set Tasks</title>
+    <script>
+        // JavaScript function to add new task input fields
+        function addTaskField() {
+            var container = document.getElementById("task-fields");
+            var newTaskField = document.createElement("div");
+            newTaskField.innerHTML = `
+                <label for="task_title">Task Title:</label>
+                <input type="text" name="task_title[]" required>
+                <label for="task_description">Task Description:</label>
+                <input type="text" name="task_description[]" required>
+                <label for="task_due_date">Due Date:</label>
+                <input type="datetime-local" name="task_due_date[]" required>
+            `;
+            container.appendChild(newTaskField);
+        }
+    </script>
+</head>
+<body>
+    <h1>Set Tasks</h1>
+    <form method="post">
+        <input type="hidden" name="user_id" value="{{ user_id }}">
+        <div id="task-fields">
+            <!-- Initial task input fields -->
+            <div>
+                <label for="task_title">Task Title:</label>
+                <input type="text" name="task_title[]" required>
+                <label for="task_description">Task Description:</label>
+                <input type="text" name="task_description[]" required>
+                <label for="task_due_date">Due Date:</label>
+                <input type="datetime-local" name="task_due_date[]" required>
+            </div>
+        </div>
+        <button type="button" onclick="addTaskField()">Add Task</button>
+        <div>
+            <button type="submit">Save Tasks</button>
+        </div>
+    </form>
+    <a href="{{ url_for('user_profile', user_id=user_id) }}">Back to User Profile</a>
+</body>
+</html>
