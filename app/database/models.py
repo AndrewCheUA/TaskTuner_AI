@@ -1,10 +1,11 @@
+import sqlalchemy
 from sqlalchemy import Column, Integer, String, Boolean, func
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.schema import ForeignKey
 from sqlalchemy.sql.sqltypes import DateTime
-from sqlalchemy.ext.declarative import declarative_base
+# from sqlalchemy.ext.declarative import declarative_base
 
-Base = declarative_base()
+Base = sqlalchemy.orm.declarative_base()
 
 
 class UserProfile(Base):
@@ -22,7 +23,7 @@ class User(Base):
     username = Column(String(50), nullable=False, unique=True)
     email = Column(String(50), nullable=False, unique=True)
     password = Column(String(250), nullable=False)
-    active_targets = Column(Integer())
+    active_goals = Column(Integer())
     created_at = Column('created_at', DateTime, default=func.now())
     is_active = Column(Boolean, default=False)
 

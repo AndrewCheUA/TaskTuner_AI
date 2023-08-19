@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Set Goals</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        form {
+            text-align: center;
+        }
+        .goal-inputs {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .goal-input {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Set Your Goals</h1>
+    <form method="post">
+        <label for="goal">Goals:</label><br>
+        <div class="goal-inputs">
+            <div class="goal-input">
+                <input type="text" name="goal_title[]" placeholder="Goal title"><br>
+                <textarea name="goal_description[]" placeholder="Goal description"></textarea><br><br>
+            </div>
+        </div>
+        <button type="button" id="add-goal">Add Another Goal</button>
+        <button type="submit">Submit</button>
+    </form>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const addButton = document.getElementById('add-goal');
+            const goalInputs = document.querySelector('.goal-inputs');
+
+            addButton.addEventListener('click', function() {
+                const newGoalInput = document.createElement('div');
+                newGoalInput.className = 'goal-input';
+                newGoalInput.innerHTML = `
+                    <input type="text" name="goal_title[]" placeholder="Goal title"><br>
+                    <textarea name="goal_description[]" placeholder="Goal description"></textarea><br><br>
+                `;
+                goalInputs.appendChild(newGoalInput);
+            });
+        });
+    </script>
+</body>
+</html>
