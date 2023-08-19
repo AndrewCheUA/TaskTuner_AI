@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 from app.database.models import UserProfile
-from app.database.connect import Session
+from app.database.connect import session
 
 app = Flask(__name__)
 
@@ -24,7 +24,7 @@ def submit():
     start_preference = request.form.get('start_preference')
 
     # Save data to the database
-    session = Session()
+    # session = Session()
     user_profile = UserProfile(name=name, preferred_hours=preferred_hours, hold_back=hold_back,
                                start_preference=start_preference)
     session.add(user_profile)
