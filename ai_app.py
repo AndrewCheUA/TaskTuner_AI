@@ -93,12 +93,22 @@ def user_profile(user_id):
 @app.route('/goal_propositions/<int:user_id>')
 def goal_propositions(user_id):
     # Retrieve existing goals from the database
-    existing_goals = session.query(Goal).filter_by(user_id=user_id).all()
+    db_existing_goals = session.query(Goal).filter_by(user_id=user_id).all()
+
+    existing_goals = ""
+    for goal in db_existing_goals:
+        existing_goals += f"Goal id: {goal.id}; Goal Title: {goal.title}; Description: {goal.description}\n"
+
+    # User information
+    user = session.query(UserProfile).filter_by(id=user_id).first()
 
     # Generate goal propositions
-    propositions = goals_proposition(existing_goals)
-
-    return render_template('goal_propositions.html', user_id=user_id, propositions=propositions)
+    propositions = goals_proposition(existing_goals, user.name, user.preferred_hours, user.hold_back,
+                                     user.start_preference)
+    # print(propositions)
+    return render_template('goal_propositions.html', user_id=user_id, user_name=user.name,
+                           existing_goals=existing_goals,
+                           propositions=propositions)
 
 
 if __name__ == '__main__':

@@ -4,17 +4,14 @@
     <title>Goal Propositions</title>
 </head>
 <body>
-    <h2>Goal Propositions</h2>
-    <form method="post" action="">
-        {% for proposition in propositions %}
-            <label>
-                <input type="checkbox" name="selected_propositions[]" value="{{ proposition.title }}">
-                {{ proposition.title }}
-            </label>
-            <p>{{ proposition.description }}</p>
-            <hr>
-        {% endfor %}
-        <button type="submit" name="create_goals">Create Selected Goals</button>
-    </form>
+    <h1>Goal Propositions for User {{ user_name }}</h1>
+
+    <p>Existing Goals:</p>
+    <pre>{{ existing_goals }}</pre>
+
+    <h2>Generated Goal Propositions:</h2>
+    <p>{{ propositions }}</p>
+
+    <a href="{{ url_for('user_profile', user_id=user_id) }}">Back to User Profile</a>
 </body>
 </html>
