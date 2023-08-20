@@ -13,6 +13,8 @@ pydantic = {extras = ["dotenv", "email"], version = "^1.10.7"}
 psycopg2-binary = "^2.9.5"
 alembic = "^1.11.3"
 flask = "^2.3.2"
+langchain = "^0.0.268"
+openai = "^0.27.8"
 
 
 [build-system]

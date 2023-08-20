@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Profile</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        h1, h2, h3 {
+            text-align: center;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        strong {
+            color: #333;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .action-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>User Profile</h1>
+    <h2>Welcome, {{ user.username }}</h2>
+
+    <h3>Goals:</h3>
+    <ul>
+        {% for goal in goals %}
+            <li>
+                <strong>{{ goal.title }}</strong>: {{ goal.description }}
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h3>Tasks:</h3>
+    <ul>
+        {% for task in tasks %}
+            <li>
+                <strong>{{ task.title }}</strong>: {{ task.description }}
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h3>Habits:</h3>
+    <ul>
+        {% for habit in habits %}
+            <li>{{ habit.name }}</li>
+        {% endfor %}
+    </ul>
+    <div class="button-container">
+        <a href="{{ url_for('goal_propositions', user_id=user_id) }}" class="action-button">Set AI Goals</a>
+        <a href="{{ url_for('task_propositions', user_id=user_id) }}" class="action-button">Set AI Tasks</a>
+    </div>
+</body>
+</html>

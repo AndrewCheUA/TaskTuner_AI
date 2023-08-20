@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Goal Propositions</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        h1, h2, p, pre, a {
+            max-width: 80%;
+        }
+
+        h1 {
+            font-size: 24px;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 20px;
+            text-align: center;
+        }
+
+        p, pre {
+            font-size: 16px;
+            text-align: center;
+        }
+
+        a {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+            text-decoration: none;
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+    <h1>Goal Propositions for User {{ user_name }}</h1>
+
+    <p>Existing Goals:</p>
+    <ul>
+        {% for goal in db_existing_goals %}
+            <li>
+                <strong>{{ goal.title }}</strong>: {{ goal.description }}
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h2>Generated Goal Propositions:</h2>
+    <form action="{{ url_for('update_goals', user_id=user_id) }}" method="POST">
+        <ul>
+            {% for new_goal in new_goals %}
+                <li>
+                    <input type="checkbox" name="selected_goals" value="{{ new_goal['goal_id'] }}">
+                    <input type="hidden" name="goal_titles" value="{{ new_goal['goal_title'] }}">
+                    <input type="hidden" name="goal_descriptions" value="{{ new_goal['goal_description'] }}">
+                    <strong>{{ new_goal['goal_title'] }}</strong>: {{ new_goal['goal_description'] }}
+                </li>
+            {% endfor %}
+        </ul>
+        <button type="submit">Update Goals</button>
+    </form>
+
+    <a href="{{ url_for('user_profile', user_id=user_id) }}">Back to User Profile</a>
+</body>
+</html>
