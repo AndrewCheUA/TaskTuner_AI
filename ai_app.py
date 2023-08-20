@@ -105,10 +105,36 @@ def goal_propositions(user_id):
     # Generate goal propositions
     propositions = goals_proposition(existing_goals, user.name, user.preferred_hours, user.hold_back,
                                      user.start_preference)
+
+    goal_sections = propositions.split("Goal id: ")[1:]
+
+    new_goals = []
+    # Process each goal section
+    for goal_section in goal_sections:
+        goal_info = goal_section.split("; ")
+        goal = {"goal_id": int(goal_info[0]), "goal_title": goal_info[1].split(": ")[1],
+                "goal_description": goal_info[2].split(": ")[1]}
+        new_goals.append(goal)
+
     # print(propositions)
     return render_template('goal_propositions.html', user_id=user_id, user_name=user.name,
-                           existing_goals=existing_goals,
-                           propositions=propositions)
+                           db_existing_goals=db_existing_goals,
+                           new_goals=new_goals)
+
+@app.route('/update_goals/<int:user_id>', methods=['POST'])
+def update_goals(user_id):
+    selected_goal_ids = request.form.getlist('selected_goals')
+    selected_goal_titeles = request.form.getlist('goal_titles')
+    selected_goal_descriptions = request.form.getlist('goal_descriptions')
+
+    for goal_id, title, description in zip(selected_goal_ids, selected_goal_titeles, selected_goal_descriptions):
+        goal_to_update = session.query(Goal).filter_by(id=goal_id).first()
+        goal_to_update.title = title
+        goal_to_update.description = description
+        session.commit()
+        print("GOAL UPDATED         !!!!!!!!!!!!!!!!!!!!!")
+
+    return redirect(url_for('user_profile', user_id=user_id))
 
 
 if __name__ == '__main__':
