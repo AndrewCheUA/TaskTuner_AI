@@ -22,5 +22,8 @@ RUN pip install pydantic[dotenv]
 # Specify the port where the application runs inside the container
 EXPOSE 5000
 
+# Define environment variable
+ENV FLASK_APP=ai_app.py
+
 # Run our application inside the container
-CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]
+CMD ["flask", "run", "--host=0.0.0.0"]
