@@ -3,7 +3,7 @@ from flask import Flask, render_template, request, redirect, url_for
 from app.database.models import User, UserProfile, Goal, Task, Habit
 from app.database.connect import session
 
-from app.openai_promts import goals_proposition, tasks_proposition
+from app.openai_promts import goals_proposition, tasks_proposition, habits_proposition
 
 from datetime import datetime
 import re
@@ -136,7 +136,6 @@ def update_goals(user_id):
         goal_to_update.title = title
         goal_to_update.description = description
         session.commit()
-        print("GOAL UPDATED         !!!!!!!!!!!!!!!!!!!!!")
 
     return redirect(url_for('user_profile', user_id=user_id))
 
@@ -196,10 +195,6 @@ def update_tasks(user_id):
     selected_task_titles = request.form.getlist('task_titles')
     selected_task_descriptions = request.form.getlist('task_descriptions')
     selected_task_due_date = request.form.getlist('task_due_dates')
-    print(f"TASK UPDATE IN PROGRES     {selected_task_due_date}  !!!!!!!!!!!!!!!!!!!!!")
-    print(f"TASK UPDATE IN PROGRES     {selected_task_descriptions}  !!!!!!!!!!!!!!!!!!!!!")
-    print(f"TASK UPDATE IN PROGRES     {selected_task_titles}  !!!!!!!!!!!!!!!!!!!!!")
-    print(f"TASK UPDATE IN PROGRES     {selected_task_ids}  !!!!!!!!!!!!!!!!!!!!!")
 
     for task_id, title, description, due_date in zip(selected_task_ids, selected_task_titles,
                                                      selected_task_descriptions,
@@ -211,12 +206,61 @@ def update_tasks(user_id):
             task_to_update.description = description
             task_to_update.due_date = due_date
             session.commit()
-            print("TASK UPDATED         !!!!!!!!!!!!!!!!!!!!!")
         else:
             task = Task(id=task_id, title=title, description=description, due_date=due_date, user_id=user_id)
             session.add(task)
             session.commit()
-            print("TASK CREATED         !!!!!!!!!!!!!!!!!!!!!")
+
+    return redirect(url_for('user_profile', user_id=user_id))
+
+
+@app.route('/habit_propositions/<int:user_id>')
+def habit_propositions(user_id):
+    # Retrieve existing goals and tasks from the database
+    db_existing_goals = session.query(Goal).filter_by(user_id=user_id).all()
+    db_existing_tasks = session.query(Task).filter_by(user_id=user_id).all()
+
+    existing_goals = ""
+    for goal in db_existing_goals:
+        existing_goals += f"Goal id: {goal.id}; Goal Title: {goal.title}; Description: {goal.description}\n"
+
+    existing_tasks = ""
+    for task in db_existing_tasks:
+        existing_tasks += f"Goal id: {task.id}; Goal Title: {task.title}; Description: {task.description}; Due date: {task.due_date}"
+
+    # User information
+    user = session.query(UserProfile).filter_by(id=user_id).first()
+
+    # Generate goal propositions
+    habit_propositions = habits_proposition(existing_goals, existing_tasks, user.name, user.preferred_hours, user.hold_back,
+                                      user.start_preference)
+
+    print(f"HABIT PROPOSITION    {habit_propositions}")
+
+    habit_sections = habit_propositions.split("Habit id: ")[1:]
+    new_habits = []
+    # Process each goal section
+    for habit_section in habit_sections:
+        habit_info = habit_section.split("; ")
+        goal = {"habit_id": int(habit_info[0]), "habit_title": habit_info[1].split(": ")[1],
+                "habit_description": habit_info[2].split(": ")[1],
+                "goal_id": int(habit_info[3].split(": ")[1].strip(".\n\n"))}
+        new_habits.append(goal)
+
+    return render_template('habit_propositions.html', user_id=user_id, user_name=user.name,
+                           new_habits=new_habits)
+
+
+@app.route('/update_habits/<int:user_id>', methods=['POST'])
+def update_habits(user_id):
+    selected_habit_titles = request.form.getlist('habit_titles')
+    selected_habit_descriptions = request.form.getlist('habit_descriptions')
+    selected_goal_id = request.form.getlist('goal_id')
+
+    for title, description, goal_id in zip(selected_habit_titles, selected_habit_descriptions, selected_goal_id):
+        habit = Habit(title=title, description=description, user_id=user_id, goal_id=goal_id)
+        session.add(habit)
+    session.commit()
 
     return redirect(url_for('user_profile', user_id=user_id))
 

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Habit Propositions</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        h1, h2, p, pre, a {
+            max-width: 80%;
+        }
+
+        h1 {
+            font-size: 24px;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 20px;
+            text-align: center;
+        }
+
+        p, pre {
+            font-size: 16px;
+            text-align: center;
+        }
+
+        a {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+            text-decoration: none;
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+    <h1>Habit Propositions for User {{ user_name }}</h1>
+    <h2>Generated Habits Propositions:</h2>
+    <form action="{{ url_for('update_habits', user_id=user_id) }}" method="POST">
+        <ul>
+            {% for new_habit in new_habits %}
+                <li>
+                    <input type="checkbox" name="habit_titles" value="{{ new_habit['habit_title'] }}">
+                    <input type="hidden" name="habit_descriptions" value="{{ new_habit['habit_description'] }}">
+                    <input type="hidden" name="goal_id" value="{{ new_habit['goal_id'] }}">
+                    <strong>{{ new_habit['habit_title'] }}</strong>: {{ new_habit['habit_description'] }}
+                </li>
+            {% endfor %}
+        </ul>
+        <button type="submit">Add Habits</button>
+    </form>
+
+    <a href="{{ url_for('user_profile', user_id=user_id) }}">Back to User Profile</a>
+</body>
+</html>

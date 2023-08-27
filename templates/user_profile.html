@@ -72,12 +72,15 @@
     <h3>Habits:</h3>
     <ul>
         {% for habit in habits %}
-            <li>{{ habit.name }}</li>
+            <li>
+                <strong>{{ habit.title }}</strong>: {{ habit.description }}
+            </li>
         {% endfor %}
     </ul>
     <div class="button-container">
         <a href="{{ url_for('goal_propositions', user_id=user_id) }}" class="action-button">Set AI Goals</a>
         <a href="{{ url_for('task_propositions', user_id=user_id) }}" class="action-button">Set AI Tasks</a>
+        <a href="{{ url_for('habit_propositions', user_id=user_id) }}" class="action-button">Set AI Habits</a>
     </div>
 </body>
 </html>

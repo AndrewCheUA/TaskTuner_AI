@@ -1,5 +1,5 @@
 # flyctl launch added from .gitignore
-**\.env
+# .env
 
 # flyctl launch added from .idea\.gitignore
 # Default ignored files

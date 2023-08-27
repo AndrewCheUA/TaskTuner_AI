@@ -2,6 +2,26 @@
 <html>
 <head>
     <title>Set Tasks</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        #container {
+            width: 60%; /* Adjust as needed */
+            padding: 20px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+        }
+
+        /* Rest of your existing styles */
+
+    </style>
     <script>
         // JavaScript function to add new task input fields
         function addTaskField() {
@@ -20,25 +40,27 @@
     </script>
 </head>
 <body>
-    <h1>Set Tasks</h1>
-    <form method="post">
-        <input type="hidden" name="user_id" value="{{ user_id }}">
-        <div id="task-fields">
-            <!-- Initial task input fields -->
-            <div>
-                <label for="task_title">Task Title:</label>
-                <input type="text" name="task_title[]" required>
-                <label for="task_description">Task Description:</label>
-                <input type="text" name="task_description[]" required>
-                <label for="task_due_date">Due Date:</label>
-                <input type="datetime-local" name="task_due_date[]" required>
+    <div id="container">
+        <h1>Set Tasks</h1>
+        <form method="post">
+            <input type="hidden" name="user_id" value="{{ user_id }}">
+            <div id="task-fields">
+                <!-- Initial task input fields -->
+                <div>
+                    <label for="task_title">Task Title:</label>
+                    <input type="text" name="task_title[]" required>
+                    <label for="task_description">Task Description:</label>
+                    <input type="text" name="task_description[]" required>
+                    <label for="task_due_date">Due Date:</label>
+                    <input type="datetime-local" name="task_due_date[]" required>
+                </div>
             </div>
-        </div>
-        <button type="button" onclick="addTaskField()">Add Task</button>
-        <div>
-            <button type="submit">Save Tasks</button>
-        </div>
-    </form>
-    <a href="{{ url_for('user_profile', user_id=user_id) }}">Back to User Profile</a>
+            <button type="button" onclick="addTaskField()">Add Task</button>
+            <div>
+                <button type="submit">Save Tasks</button>
+            </div>
+        </form>
+        <a href="{{ url_for('user_profile', user_id=user_id) }}">Back to User Profile</a>
+    </div>
 </body>
 </html>

@@ -79,3 +79,39 @@ def tasks_proposition(list_of_goals, list_of_tasks, name, preferred_hours, hold_
     return llm(prompt_template.format(list_of_goals=list_of_goals, list_of_tasks=list_of_tasks, name=name,
                                       preferred_hours=preferred_hours,
                                       hold_back=hold_back, start_preference=start_preference))
+
+
+def habits_proposition(list_of_goals, list_of_tasks, name, preferred_hours, hold_back, start_preference):
+    habits_proposition = """Acting as a life coach and productivity expert, identify habits directly related to each of
+    the user's stated goals and based on users tasks. Propose one habit for each accepted goal to help support its achievement.
+    Ensure suggestions are practical and universally applicable. One habit should correspond one goal.
+
+
+    Context:
+    Name: {name}
+    Preferred working/studying hours: {preferred_hours}
+    Common challenges: {hold_back}
+    Start of day preference: {start_preference}
+
+
+    User-provided goals:
+    {list_of_goals}
+
+    User-provided tasks:
+    {list_of_tasks}
+
+
+    Output Indicator:
+    Habit id: ; Habit Title: ; Habit Description: ; Goal id: .
+
+
+    Answer: """
+
+    prompt_template = PromptTemplate(
+        input_variables=["list_of_goals", "list_of_tasks", "name", "preferred_hours", "hold_back", "start_preference"],
+        template=habits_proposition
+    )
+
+    return llm(prompt_template.format(list_of_goals=list_of_goals, list_of_tasks=list_of_tasks, name=name,
+                                      preferred_hours=preferred_hours,
+                                      hold_back=hold_back, start_preference=start_preference))
